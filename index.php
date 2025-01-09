@@ -134,16 +134,16 @@ include "koneksi.php";
         <div id="carouselExample" class="carousel slide">
           <div class="carousel-inner text-center">
             <div class="carousel-item active">
-              <img src="https://i.pinimg.com/736x/96/25/d4/9625d43ed77a30283e50000e62ddd321.jpg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
+              <img src="gal1.jpeg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
             </div>
             <div class="carousel-item">
-              <img src="https://www.envimedia.co/wp-content/uploads/2022/02/THUMBNAIL-MARK-MUSIC-SPACE.jpeg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
+              <img src="gal2.jpeg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
             </div>
             <div class="carousel-item">
-              <img src="https://cdn.antaranews.com/cache/1200x800/2020/09/28/WhatsApp-Image-2020-09-28-at-09.39.18.jpeg.webp" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
+              <img src="gal3.jpeg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
             </div>
             <div class="carousel-item">
-              <img src="https://www.wowkeren.com/display/images/photo/2023/08/03/00487405.webp" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
+              <img src="gal4.jpeg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
             </div>
           </div>
           <button
