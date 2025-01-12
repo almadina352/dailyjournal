@@ -31,9 +31,9 @@
                             <td>
                                 <?php
                                 if ($row["gambar"] != '') {
-                                    if (file_exists('img/' . $row["gambar"] . '')) {
+                                    if (file_exists('images/' . $row["gambar"] . '')) {
                                 ?>
-                                        <img src="img/<?= $row["gambar"] ?>" width="100">
+                                        <img src="images/<?= $row["gambar"] ?>" width="100">
                                 <?php
                                     }
                                 }
@@ -61,9 +61,9 @@
                         <label for="formGroupExampleInput3" class="form-label">Gambar Lama</label>
                         <?php
                         if ($row["gambar"] != '') {
-                            if (file_exists('img/' . $row["gambar"] . '')) {
+                            if (file_exists('images/' . $row["gambar"] . '')) {
                         ?>
-                                <br><img src="img/<?= $row["gambar"] ?>" width="100">
+                                <br><img src="images/<?= $row["gambar"] ?>" width="100">
                         <?php
                             }
                         }
@@ -116,9 +116,9 @@
             </table>
 
 <?php 
-$sql1 = "SELECT * FROM gallery";
-$hasil1 = $conn->query($sql1); 
-$total_records = $hasil1->num_rows;
+$sql2 = "SELECT * FROM gallery";
+$hasil2 = $conn->query($sql2); 
+$total_records = $hasil2->num_rows;
 ?>
 <p>Total gallery : <?php echo $total_records; ?></p>
 <nav class="mb-2">
