@@ -1,121 +1,79 @@
 <?php
-include "koneksi.php";
+// Update profile logic
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = $_SESSION['username'];
 
-if (!isset($_SESSION['username'])) {
-    header("Location: login.php");
+    // Update password jika diisi
+    if (!empty($_POST['password'])) {
+        $password = md5($_POST['password']); // Hash password dengan MD5
+        $sql = "UPDATE user SET password='$password' WHERE username='$username'";
+        mysqli_query($conn, $sql);
+    }
+
+    // Update foto profil jika file diupload
+    if (!empty($_FILES['foto']['name'])) {
+        $foto_name = time() . '_' . $_FILES['foto']['name']; // Rename file dengan timestamp
+        $foto_tmp = $_FILES['foto']['tmp_name'];
+        $foto_folder = "img/" . $foto_name;
+
+        // Pindahkan file ke folder img
+        if (move_uploaded_file($foto_tmp, $foto_folder)) {
+            $sql = "UPDATE user SET foto='$foto_name' WHERE username='$username'";
+            mysqli_query($conn, $sql);
+        }
+    }
+
+    // Redirect setelah update
+  if (isset($update_status)){
+    header("location:admin.php?page=profile&status=success");
+  } else {
+    header ("location:admin.php?page=profile");
+  }
     exit;
 }
 
-// Ambil data user berdasarkan session
-$username = $_SESSION['username'];
-$query = $conn->prepare("SELECT * FROM user WHERE username = ?");
-$query->bind_param("s", $username);
-$query->execute();
-$result = $query->get_result();
-$user = $result->fetch_assoc();
-
-// Proses update data
-if (isset($_POST['update_profile'])) {
-    $new_username = $_POST['username'];
-    $password = $_POST['password'];
-    $foto = $_FILES['foto']['name'];
-    $foto_lama = $user['foto'];
-    $update_password = false;
-
-    // Update password jika diisi
-    if (!empty($password)) {
-        $password = md5($password); // Enkripsi MD5
-        $update_password = true;
-    }
-
-    // Proses upload foto jika ada file baru
-    if (!empty($foto)) {
-        $gambar = "img/";
-        $target_file = $gambar . basename($foto);
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        $valid_extensions = ['jpg', 'jpeg', 'png', 'gif'];
-
-        // Validasi ekstensi file
-        if (in_array($imageFileType, $valid_extensions)) {
-            if (move_uploaded_file($_FILES['foto']['tmp_name'], $target_file)) {
-                // Hapus foto lama jika bukan default
-                if ($foto_lama != 'default.jpg') {
-                    unlink($gambar . $foto_lama);
-                }
-            } else {
-                echo "<script>alert('Gagal mengupload foto.');</script>";
-                die;
-            }
-        } else {
-            echo "<script>alert('Ekstensi file tidak valid. Hanya JPG, JPEG, PNG, dan GIF diperbolehkan.');</script>";
-            die;
-        }
-    } else {
-        $foto = $foto_lama; // Gunakan foto lama jika tidak ada upload baru
-    }
-
-    // Update data user
-    if ($update_password) {
-        $stmt = $conn->prepare("UPDATE user SET username = ?, password = ?, foto = ? WHERE id = ?");
-        $stmt->bind_param("sssi", $new_username, $password, $foto, $user['id']);
-    } else {
-        $stmt = $conn->prepare("UPDATE user SET username = ?, foto = ? WHERE id = ?");
-        $stmt->bind_param("ssi", $new_username, $foto, $user['id']);
-    }
-
-    $update = $stmt->execute();
-
-    if ($update) {
-        $_SESSION['username'] = $new_username; // Update session username
-        echo "<script>
-            alert('Profil berhasil diperbarui.');
-            document.location='admin.php?page=profile';
-        </script>";
-    } else {
-        echo "<script>alert('Gagal memperbarui profil.');</script>";
-    }
-
-    $stmt->close();
-    $conn->close();
+// Ambil data user dari database
+$sql = "SELECT * FROM user WHERE username = '".$_SESSION['username']."'";
+$hasil = $conn->query($sql);
+if ($hasil->num_rows > 0) {
+    $user = $hasil->fetch_assoc();
+} else {
+    echo "User  tidak ditemukan!";
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manajemen Profil</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container mt-5">
-    <h2>Manajemen Profil</h2>
-    <form method="post" action="" enctype="multipart/form-data">
-        <!-- Username -->
-        <div class="mb-3">
-            <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username" value="<?= $user['username']; ?>" required>
-        </div>
 
-        <!-- Password -->
-        <div class="mb-3">
-            <label for="password" class="form-label">Ganti Password</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Isi hanya jika ingin mengubah password">
-        </div>
-
-        <!-- Foto Profil -->
-        <div class="mb-3">
-            <label for="foto" class="form-label">Ganti Foto Profil</label>
-            <div>
-                <img src="img/<?= $user['foto']; ?>" alt="Foto Profil" width="100" class="mb-2">
+<div class="profile">
+            <h3>Profil</h3>
+            <?php if (isset($_GET['status']) && $_GET['status'] === 'success'): ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Profil berhasil diperbarui!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Ganti Password</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan password baru">
+                        </div>
+                        <div class="mb-3">
+                            <label for="foto" class="form-label">Ganti Foto Profil</label>
+                            <input class="form-control" type="file" id="foto" name="foto">
+                        </div>
+                        <div class="col-md-6">
+                    <label class="form-label">Foto Profil Saat Ini</label><br>
+                    <!-- tampilkan foto -->
+                    <img src="img/<?= $user['foto'] ?>" alt="Foto Profil" width="200">
+                    <br><br>
+                </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-secondary mb-3 shadow" style="max-width: 18rem;">Simpan</button>
+                        </div>
+                    </form>
+                    <br>
+                </div>
+                
             </div>
-            <input type="file" class="form-control" id="foto" name="foto">
-        </div>
-
-        <!-- Submit Button -->
-        <button type="submit" name="update_profile" class="btn btn-primary">Simpan Perubahan</button>
-    </form>
-</div>
-</body>
-</html>
+</section>

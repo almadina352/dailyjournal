@@ -96,7 +96,7 @@ include "koneksi.php";
     <!-- article begin -->
 <section id="article" class="text-center p-5">
   <div class="container">
-    <h1 class="fw-bold display-4 pb-3">article</h1>
+    <h1 class="fw-bold display-4 pb-3">Article</h1>
     <div class="row row-cols-1 row-cols-md-3 g-4 justify-content-center">
       <?php
       $sql = "SELECT * FROM article ORDER BY tanggal DESC";
@@ -128,45 +128,36 @@ include "koneksi.php";
 </section>
 <!-- article end -->
     <!-- gallery begin -->
-    <section id="gallery" class="text-center p-5 bg-danger-subtle">
-      <div class="container">
-        <h1 class="fw-bold display-4 pb-3">gallery</h1>
-        <div id="carouselExample" class="carousel slide">
-          <div class="carousel-inner text-center">
-            <div class="carousel-item active">
-              <img src="img/gal1.jpg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
-            </div>
-            <div class="carousel-item">
-              <img src="img/gal2.jpg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
-            </div>
-            <div class="carousel-item">
-              <img src="img/gal3.jpg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
-            </div>
-            <div class="carousel-item">
-              <img src="img/gal4.jpg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
-            </div>
-          </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExample"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div>
-    </section>
+    <section id="gallery" class="text-center p-5">      
+        <div class="container">      
+            <h1 class="fw-bold display-4 pb-3">Gallery</h1>      
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">  
+                <div class="carousel-inner">  
+                    <?php    
+                    $sql = "SELECT * FROM gallery ORDER BY tanggal DESC";    
+                    $hasil = $conn->query($sql);    
+                    $active = true; // To set the first item as active  
+                    while ($row = $hasil->fetch_assoc()) {    
+                    ?>    
+                        <div class="carousel-item <?= $active ? 'active' : '' ?>">    
+                            <img src="img/<?= htmlspecialchars($row["gambar"]) ?>" class="d-block w-100" alt="Gallery Image"/>  
+                        </div>    
+                    <?php   
+                        $active = false; // Set active to false after the first item  
+                    }   
+                    ?>    
+                </div>  
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">  
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>  
+                    <span class="visually-hidden">Previous</span>  
+                </button>  
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">  
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>  
+                    <span class="visually-hidden">Next</span>  
+                </button>  
+            </div>  
+        </div>      
+    </section>    
     <!-- gallery end -->
     <!-- schedule begin -->
     <section id="schedule" class="text-center p-5">
