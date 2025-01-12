@@ -134,16 +134,16 @@ include "koneksi.php";
         <div id="carouselExample" class="carousel slide">
           <div class="carousel-inner text-center">
             <div class="carousel-item active">
-              <img src="gal1.jpeg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
+              <img src="img/gal1.jpg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
             </div>
             <div class="carousel-item">
-              <img src="gal2.jpeg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
+              <img src="img/gal2.jpg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
             </div>
             <div class="carousel-item">
-              <img src="gal3.jpeg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
+              <img src="img/gal3.jpg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
             </div>
             <div class="carousel-item">
-              <img src="gal4.jpeg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
+              <img src="img/gal4.jpg" class="d-block w-50 rounded" alt="..." style="margin: 0 auto; border-radius: 15px;" />
             </div>
           </div>
           <button
