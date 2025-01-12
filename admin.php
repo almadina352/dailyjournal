@@ -72,7 +72,7 @@ if (!isset($_SESSION['username'])) {
                 <a class="nav-link" href="admin.php?page=gallery">Gallery</a>
             </li> 
             <li class="nav-item">  
-                    <a class="nav-link" href="http://localhost/latihan_jqueryajax/">Homepage</a>   
+                    <a class="nav-link" href="http://koliiyjournal.free.nf/?i=1">Homepage</a>   
                 </li>  
             <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
